@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Repository from './components/Repository';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const App = () => {
+      const [repos, setRepos] = useState([]);
+
+      async function fetchRepos() {
+            await fetch('https://api.github.com/search/repositories?q=javascript')
+                  .then(res => res.json())
+                  .then(data => setRepos(data.items));
+      }
+
+      useEffect(() => {
+            fetchRepos();
+      }, []);
+
+      return (
+            <div className="App">
+                  {
+                        repos.map(repo => <Repository repo={repo} key={Math.random()} />)
+                  }
+            </div>
+      );
 }
 
 export default App;
