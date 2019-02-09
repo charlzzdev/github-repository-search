@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+
+*{
+      margin: 0;
+      padding: 0;
+      outline: 0;
+}
+
+body{
+      box-sizing: border-box;
+      font-family: 'Varela Round', sans-serif;
+      background: #eaeaea;
+}
+
+.loading{
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgb(37, 205, 211);
+      border-radius: 50%;
+      border-bottom-right-radius: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      animation: loading 900ms ease-in infinite;
+}
+
+@keyframes loading{
+      0%{
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 50%;
+            border-top-right-radius: 50%;
+            border-top-left-radius: 0;
+            border: 5px solid rgb(37, 211, 167);
+      }
+      
+      50%{
+            border-bottom-right-radius: 50%;
+            border-bottom-left-radius: 0;
+            border-top-right-radius: 0;
+            border-top-left-radius: 50%;
+            border: 5px solid rgb(16, 105, 240);
+      }
+
+      100%{
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 50%;
+            border-top-right-radius: 50%;
+            border-top-left-radius: 0;
+            border: 5px solid rgb(37, 205, 211);
+      }
+}
+
+.Header{
+      height: 35vh;
+      background: linear-gradient(60deg, rgb(37, 170, 211), rgb(16, 128, 202));
+}
+
+.Header{
+      h1{
+            padding: 30px 0;
+      }
+}
+
+.Header{
+      text-align: center;
+      .header-search-form{
+            display: flex;
+            width: 25vw;
+            margin: 0 auto;
+            input{
+                  font-family: 'Varela Round', sans-serif;
+                  padding: 15px;
+                  border: 0;
+                  background: #1ff0ff3f;
+                  flex: 5;
+                  transition: background 400ms;
+                  &:focus{
+                        background: #8edbffb6;
+                  }
+            }
+            button{
+                  font-family: 'Varela Round', sans-serif;
+                  padding: 15px;
+                  border: 0;
+                  background: #00e1ffa4;
+                  border-top-right-radius: 20px;
+                  border-bottom-right-radius: 20px;
+                  flex: 2;
+                  cursor: pointer;
+            }
+      }
+}
+
+.container{
+      margin: 6vh 20vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .card{
+            flex-basis: 15vw;
+            flex-grow: 0;
+            background: linear-gradient(150deg, #ffffff, #dbfffc);
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            margin:  0.5rem;
+
+            .card-header{
+                  display: flex;
+                  align-items: center;
+                  font-size: 20px;
+                  a{
+                        text-decoration: none;
+                        color: #ff5757;
+                        padding-right: 8px;
+                        word-break: break-word;
+                  }
+            }
+            .card-subtitle{
+                  font-size: 12px;
+                  color: #8f8f8f;
+                  padding: 0.4rem 0;
+                  word-break: break-word;
+            }
+            .card-desc{
+                  word-break: break-word;
+            }
+            .row{
+                  display: flex;
+                  padding: 0.5rem;
+                  justify-content: space-around;
+            }
+            .actions{
+                  padding: 0.4rem;
+            }
+      }
+}
+
+.badge{
+      background: #2fe2ac;
+      border-radius: 30px;
+      padding: 5px;
+      font-size: 13px;
+}
+
+.btn{
+      background: #00abd6;
+      padding: 0.3rem;
+      text-decoration: none;
+      color: #fff;
+      border: 0;
+}
+
+.clone-url{
+      cursor: pointer;
+      &::after{
+            content: "Clone";
+      }
+      &:hover::after{
+            content: "Copy link";
+      }
+      &:focus::after{
+            content: "Copied!";
+      }
+}
+
+@media(max-width: 1300px){
+      .card{
+            flex-basis: 24vw !important;
+      }
+}
+
+@media(max-width: 1080px){
+      .card{
+            flex-basis: 24vw !important;
+      }
+      .container{
+            margin: 6vh 0;
+      }
+      .header-search-form{
+            width: 50vw !important;
+      }
+}
+
+@media(max-width: 800px){
+      .card{
+            flex-basis: 40vw !important;
+      }
+}
+
+@media(max-width: 650px){
+      .card{
+            flex-basis: 100vw !important;
+      }
+      .header-search-form{
+            width: 85vw !important;
+            flex-direction: column;
+            button{
+                  border-bottom-left-radius: 20px;
+                  border-top-right-radius: 0 !important;
+            }
+      }
+}
+
