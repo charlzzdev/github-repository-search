@@ -3,8 +3,8 @@ import React from 'react';
 const Header = (props) => {
       const handleSubmit = (e) => {
             e.preventDefault();
-            const query = e.target[0].value;
-            if(query.trim() !== ''){
+            const query = e.target[0].value.trim();
+            if(query !== ''){
                   props.fetchRepos(query);
                   e.target.reset();
             }
