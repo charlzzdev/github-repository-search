@@ -152,10 +152,10 @@ body{
       text-decoration: none;
       color: #fff;
       border: 0;
+      cursor: pointer;
 }
 
 .clone-url{
-      cursor: pointer;
       &::after{
             content: "Clone";
       }

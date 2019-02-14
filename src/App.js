@@ -12,10 +12,9 @@ const App = () => {
 
       async function fetchRepos(query) {
             setState({ loading: true });
-            await fetch(`https://api.github.com/search/repositories?q=${query}`)
+            await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=3`)
                   .then(res => res.json())
                   .then(data => {
-                        console.log(data)
                         setState({
                               loading: false,
                               repos: data.items,

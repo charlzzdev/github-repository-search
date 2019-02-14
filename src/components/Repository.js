@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 
 const Repository = ({ repo }) => {
+      const [state, setState] = useReducer((state, newState) => ({...state, ...newState}), {});
+
       const handleCopy = (e) => {
             let input = document.createElement('input');
             let body = document.querySelector('body');
@@ -12,6 +14,18 @@ const Repository = ({ repo }) => {
             e.target.focus();
       }
 
+      async function handleDetails(what, url) {
+            await fetch(url)
+                  .then(res => res.json())
+                  .then(data => {
+                        setState({
+                              [repo.full_name]: {
+                                    [what]: data
+                              }
+                        });
+                  });
+      }
+
       return (
             <div className="card">
                   <div className="content">
@@ -19,10 +33,13 @@ const Repository = ({ repo }) => {
                         <div className="card-subtitle">{repo.full_name}</div>
                         <div className="card-desc">{repo.description}</div>
                         <div className="row">
-                              <div className="commits">
+                              <div className="btn commits" onClick={() => handleDetails('commits', repo.commits_url.split('{')[0])}>
                                     Commits
+                                    {
+                                          state[repo.full_name] !== undefined && state[repo.full_name].commits !== undefined ? state[repo.full_name].commits.map(commit => console.log(commit.commit.message)) : null
+                                    }
                               </div>
-                              <div className="issues">
+                              <div className="btn issues">
                                     Issues
                               </div>
                         </div>
