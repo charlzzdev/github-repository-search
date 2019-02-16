@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'semantic-ui-react';
 
 const Header = (props) => {
       const handleSubmit = (e) => {
@@ -11,11 +12,10 @@ const Header = (props) => {
       }
 
       return (
-            <header className="Header">
-                  <h1>Search Github Repositories</h1>
-                  <form className="header-search-form" onSubmit={handleSubmit}>
-                        <input type="text" placeholder="Topic"/>
-                        <button>Search!</button>
+            <header>
+                  <h1 style={{padding: "1rem 0"}}>Search Github Repositories</h1>
+                  <form onSubmit={handleSubmit}>
+                        <Input type="text" placeholder="Topic" icon="search"/>
                   </form>
             </header>
       )

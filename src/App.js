@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import Header from './components/Header';
 import Repository from './components/Repository';
+import { Container, Grid, Dimmer, Loader } from 'semantic-ui-react';
 
 const App = () => {
       const initialState = {
@@ -30,20 +31,20 @@ const App = () => {
       }
 
       return (
-            <div className="App">
+            <Container textAlign="center">
                   <Header fetchRepos={fetchRepos}/>
                   {
-                        state.loading ? <div className="loading"></div> : null
+                        state.loading ? <Dimmer active inverted><Loader size="massive">Loading</Loader></Dimmer> : null
                   }
                   {
                         state.error ? <h1 style={{textAlign: "center"}}>Error: failed retrieving repositories</h1> : null
                   }
-                  <div className="container">
+                  <Grid centered style={{marginTop: "1rem"}}>
                         {
                               state.repos.map(repo => <Repository repo={repo} key={Math.random()} />)
                         }
-                  </div>
-            </div>
+                  </Grid>
+            </Container>
       );
 }
 

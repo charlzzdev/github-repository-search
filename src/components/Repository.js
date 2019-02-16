@@ -1,17 +1,21 @@
 import React, { useReducer } from 'react';
+import { Button, Card, Label, Grid } from 'semantic-ui-react';
 
 const Repository = ({ repo }) => {
       const [state, setState] = useReducer((state, newState) => ({...state, ...newState}), {});
 
       const handleCopy = (e) => {
-            let input = document.createElement('input');
-            let body = document.querySelector('body');
+            const input = document.createElement('input');
+            const body = document.querySelector('body');
             input.value = e.target.getAttribute('data-url');
             body.appendChild(input);
             input.select();
             document.execCommand('copy');
             body.removeChild(input);
-            e.target.focus();
+            const target = e.target;
+            const innerHTML = target.innerHTML;
+            target.children[1].innerHTML = 'Copied!';
+            setTimeout(() => target.innerHTML = innerHTML, 2000);
       }
 
       async function handleDetails(what, url) {
@@ -27,27 +31,32 @@ const Repository = ({ repo }) => {
       }
 
       return (
-            <div className="card">
-                  <div className="content">
-                        <div className="card-header"><a href={repo.html_url} target="blank"> {repo.name} </a><span className="badge">{repo.private ? 'private' : 'public'}</span></div>
-                        <div className="card-subtitle">{repo.full_name}</div>
-                        <div className="card-desc">{repo.description}</div>
-                        <div className="row">
-                              <div className="btn commits" onClick={() => handleDetails('commits', repo.commits_url.split('{')[0])}>
-                                    Commits
-                                    {
-                                          state[repo.full_name] !== undefined && state[repo.full_name].commits !== undefined ? state[repo.full_name].commits.map(commit => console.log(commit.commit.message)) : null
-                                    }
-                              </div>
-                              <div className="btn issues">
-                                    Issues
-                              </div>
-                        </div>
-                        <div className="actions">
-                              <button  className="btn clone-url" data-url={repo.clone_url} onClick={handleCopy}></button>
-                        </div>
-                  </div>
-            </div>
+            <Grid.Column mobile={16} computer={5} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <Card>
+                        <Card.Content>
+                              <Card.Header><a href={repo.html_url} target="blank"> {repo.name} </a><Label size="mini" color="green">{repo.private ? 'private' : 'public'}</Label></Card.Header>
+                              <Card.Meta>{repo.full_name}</Card.Meta>
+                              <Card.Description>{repo.description}</Card.Description>
+                        </Card.Content>
+                        <Card.Content>
+                              <Button.Group primary>
+                                    <Button onClick={() => handleDetails('commits', repo.commits_url.split('{')[0])}>
+                                          Commits
+                                          {
+                                                state[repo.full_name] !== undefined && state[repo.full_name].commits !== undefined ? state[repo.full_name].commits.map(commit => console.log(commit.commit.message)) : null
+                                          }
+                                    </Button>
+                                    <Button>
+                                          Issues
+                                    </Button>
+                                    <Button animated="fade" data-url={repo.clone_url} onClick={handleCopy}>
+                                          <Button.Content visible style={{pointerEvents: 'none'}}>Clone</Button.Content>
+                                          <Button.Content hidden style={{pointerEvents: 'none'}}>Copy Link</Button.Content>
+                                    </Button>
+                              </Button.Group>
+                        </Card.Content>
+                  </Card>
+            </Grid.Column>
       );
 }
 
