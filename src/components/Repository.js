@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import { Button, Card, Label, Grid } from 'semantic-ui-react';
+import RepoModal from './RepoModal';
 
 const Repository = ({ repo }) => {
       const [state, setState] = useReducer((state, newState) => ({...state, ...newState}), {});
@@ -19,16 +20,25 @@ const Repository = ({ repo }) => {
       }
 
       async function handleDetails(what, url) {
-            await fetch(url)
-                  .then(res => res.json())
-                  .then(data => {
-                        setState({
-                              [repo.full_name]: {
-                                    [what]: data
-                              }
+            if(state[repo.full_name] === undefined || state[repo.full_name][what] === undefined){
+                  await fetch(url)
+                        .then(res => res.json())
+                        .then(data => {
+                              setState({
+                                    [repo.full_name]: {
+                                          [what]: data
+                                    }
+                              });
                         });
-                  });
+            }
       }
+
+      const openModal = () => {
+            handleModalState();
+            handleDetails('commits', repo.commits_url.split('{')[0]);
+      }
+
+      const handleModalState = () => setState({openModal: !state.openModal});
 
       return (
             <Grid.Column mobile={16} computer={5} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -40,11 +50,8 @@ const Repository = ({ repo }) => {
                         </Card.Content>
                         <Card.Content>
                               <Button.Group primary>
-                                    <Button onClick={() => handleDetails('commits', repo.commits_url.split('{')[0])}>
+                                    <Button onClick={() => openModal()}>
                                           Commits
-                                          {
-                                                state[repo.full_name] !== undefined && state[repo.full_name].commits !== undefined ? state[repo.full_name].commits.map(commit => console.log(commit.commit.message)) : null
-                                          }
                                     </Button>
                                     <Button>
                                           Issues
@@ -54,6 +61,7 @@ const Repository = ({ repo }) => {
                                           <Button.Content hidden style={{pointerEvents: 'none'}}>Copy Link</Button.Content>
                                     </Button>
                               </Button.Group>
+                              <RepoModal open={state.openModal} data={state[repo.full_name]} repoName={repo.full_name} close={handleModalState} />
                         </Card.Content>
                   </Card>
             </Grid.Column>
