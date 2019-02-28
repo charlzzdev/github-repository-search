@@ -19,23 +19,25 @@ const Repository = ({ repo }) => {
             setTimeout(() => target.innerHTML = innerHTML, 2000);
       }
 
-      async function handleDetails(what, url) {
-            if(state[repo.full_name] === undefined || state[repo.full_name][what] === undefined){
+      async function handleDetails(url) {
+            const detail = url.split('/')[6];
+            if(state[repo.full_name] === undefined || state[repo.full_name][detail] === undefined){
                   await fetch(url)
                         .then(res => res.json())
                         .then(data => {
                               setState({
                                     [repo.full_name]: {
-                                          [what]: data
+                                          ...state[repo.full_name],
+                                          [detail]: data
                                     }
                               });
                         });
             }
       }
 
-      const openModal = () => {
+      const openModal = (detail) => {
             handleModalState();
-            handleDetails('commits', repo.commits_url.split('{')[0]);
+            handleDetails(`${repo.url}/${detail}`);
       }
 
       const handleModalState = () => setState({openModal: !state.openModal});
@@ -50,7 +52,7 @@ const Repository = ({ repo }) => {
                         </Card.Content>
                         <Card.Content>
                               <Button.Group primary>
-                                    <Button onClick={() => openModal()}>
+                                    <Button onClick={() => openModal('commits')}>
                                           Commits
                                     </Button>
                                     <Button>
