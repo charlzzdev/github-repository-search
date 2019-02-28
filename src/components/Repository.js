@@ -36,11 +36,11 @@ const Repository = ({ repo }) => {
       }
 
       const openModal = (detail) => {
-            handleModalState();
+            handleModalState(detail);
             handleDetails(`${repo.url}/${detail}`);
       }
 
-      const handleModalState = () => setState({openModal: !state.openModal});
+      const handleModalState = (detail) => setState({openModal: !state.openModal, detail});
 
       return (
             <Grid.Column mobile={16} computer={5} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -55,7 +55,7 @@ const Repository = ({ repo }) => {
                                     <Button onClick={() => openModal('commits')}>
                                           Commits
                                     </Button>
-                                    <Button>
+                                    <Button onClick={() => openModal('issues')}>
                                           Issues
                                     </Button>
                                     <Button animated="fade" data-url={repo.clone_url} onClick={handleCopy}>
@@ -63,7 +63,7 @@ const Repository = ({ repo }) => {
                                           <Button.Content hidden style={{pointerEvents: 'none'}}>Copy Link</Button.Content>
                                     </Button>
                               </Button.Group>
-                              <RepoModal open={state.openModal} data={state[repo.full_name]} repoName={repo.full_name} close={handleModalState} />
+                              <RepoModal open={state.openModal} data={state[repo.full_name]} repoName={repo.full_name} close={handleModalState} detail={state.detail} />
                         </Card.Content>
                   </Card>
             </Grid.Column>
