@@ -1,5 +1,6 @@
- import React from 'react';
- import { Feed, Dimmer, Loader } from 'semantic-ui-react';
+import React from 'react';
+import { Feed } from 'semantic-ui-react';
+import RepoLoader from './RepoLoader';
  
 const CommitFeed = (props) => {
       return (
@@ -29,11 +30,11 @@ const CommitFeed = (props) => {
                                           );
                                     })
                               }
-                        </Feed> : <Dimmer active inverted><Loader size="massive">Loading</Loader></Dimmer>
+                        </Feed> : <RepoLoader />
                   }
             </>
       )
- }
+}
 
- export default CommitFeed;
+export default CommitFeed;
  
