@@ -1,6 +1,7 @@
 import React from 'react';
 import { Feed, Label } from 'semantic-ui-react';
 import RepoLoader from './RepoLoader';
+import convertDate from './convertDate';
 
 const IssuesFeed = (props) => {
       if(props.data === undefined || props.data.issues === undefined) return <RepoLoader />;
@@ -23,7 +24,7 @@ const IssuesFeed = (props) => {
                                                 {
                                                       issue.locked ? <Label color="red">locked</Label> : null
                                                 }
-                                                <Feed.Date>Created: {issue.created_at} | Updated: {issue.updated_at}</Feed.Date>
+                                                <Feed.Date>Created: {convertDate(issue.created_at)} | Updated: {convertDate(issue.updated_at)}</Feed.Date>
                                           </Feed.Summary>
                                           <Feed.Extra text>
                                                 {issue.body}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Feed } from 'semantic-ui-react';
 import RepoLoader from './RepoLoader';
+import convertDate from './convertDate';
  
 const CommitFeed = (props) => {
       return (
@@ -10,7 +11,6 @@ const CommitFeed = (props) => {
                               {
                                     props.data.commits.map(commit => {
                                           const commitDetails = commit.commit;
-                                          const date = new Date(commitDetails.author.date);
                                           const authorAvailable = commit.author !== null;
                                           return (
                                                 <Feed.Event key={Math.random()}>
@@ -20,7 +20,7 @@ const CommitFeed = (props) => {
                                                       <Feed.Content>
                                                             <Feed.Summary>
                                                                   <Feed.User href={authorAvailable ? commit.author.html_url : '#'} target={authorAvailable ? 'blank' : ''}>{commitDetails.author.name}</Feed.User> committed on
-                                                                  <Feed.Date>{date.toLocaleString()}</Feed.Date>
+                                                                  <Feed.Date>{convertDate(commitDetails.author.date)}</Feed.Date>
                                                             </Feed.Summary>
                                                             <Feed.Meta>
                                                                   {commitDetails.message}
