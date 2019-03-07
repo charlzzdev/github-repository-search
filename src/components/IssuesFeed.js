@@ -7,6 +7,24 @@ const IssuesFeed = (props) => {
       if(props.data === undefined || props.data.issues === undefined) return <RepoLoader />;
       let noIssues = props.data.issues.length === 0 ? true : false;
 
+      const renderBody = (body) => {
+            let text = [];
+            body.split("```").forEach((part, i) => {
+                  if(i % 2 !== 0 && part !== ''){
+                        text.push(
+                              <pre key={i} style={{
+                                    background: '#f5f5f5',
+                                    padding: '0.5rem',
+                                    borderRadius: '7px'
+                              }}>{part}</pre>
+                        );
+                  } else {
+                        text.push(<div key={i}>{part}</div>);
+                  }
+            });
+            return text;
+      }
+
       return (
             <Feed>
                   {
@@ -27,7 +45,7 @@ const IssuesFeed = (props) => {
                                                 <Feed.Date>Created: {convertDate(issue.created_at)} | Updated: {convertDate(issue.updated_at)}</Feed.Date>
                                           </Feed.Summary>
                                           <Feed.Extra text>
-                                                {issue.body}
+                                                {renderBody(issue.body)}
                                           </Feed.Extra>
                                           <Feed.Meta>
                                                 {
