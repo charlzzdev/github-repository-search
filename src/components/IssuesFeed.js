@@ -1,12 +1,15 @@
-import React from 'react';
-import { Feed, Label } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Feed, Label, Header } from 'semantic-ui-react';
 import RepoLoader from './RepoLoader';
 import convertDate from './convertDate';
+import CommentSection from './CommentSection';
 
 const IssuesFeed = (props) => {
+      const [comments, setComments] = useState([]);
+
       if(props.data === undefined || props.data.issues === undefined) return <RepoLoader />;
       let noIssues = props.data.issues.length === 0 ? true : false;
-
+      
       const renderBody = (body) => {
             let text = [];
             body.split("```").forEach((part, i) => {
@@ -24,12 +27,19 @@ const IssuesFeed = (props) => {
             });
             return text;
       }
+      
+
+      const getComments = (url) => {
+            fetch(url)
+                  .then(res => res.json())
+                  .then(data => setComments(data));
+      }
 
       return (
             <Feed>
                   {
-                        props.data.issues.map(issue => 
-                              <Feed.Event key={issue.id}>
+                        props.data.issues.map(issue => {
+                              return <Feed.Event key={issue.id}>
                                     <Feed.Label image={issue.user.avatar_url} />
                                     <Feed.Content>
                                           <Feed.Summary>
@@ -52,16 +62,19 @@ const IssuesFeed = (props) => {
                                                       issue.pull_request !== undefined ?
                                                       <a href={issue.pull_request.html_url} target="blank">Pull</a> : null
                                                 }
-                                                <a href={issue.comments_url}>Comments ({issue.comments})</a>
+                                                <a href="#comments" onClick={() => getComments(issue.comments_url)}>Comments ({issue.comments})</a>
                                           </Feed.Meta>
                                     </Feed.Content>
                               </Feed.Event>
-                        )
+                        })
                   }
-                  
+
                   {
                         noIssues ? 'No issues were found.' : null
                   }
+                  
+                  <Header as="h1" id="comments" dividing>Comments</Header>
+                  <CommentSection comments={comments} />
             </Feed>
       )
 }
